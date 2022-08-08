@@ -14,6 +14,6 @@ public interface ModuleRepository extends JpaRepository<ModuleModel, UUID> {
 //    ModuleModel findByTitle(String title);
 
     //@Modifying --> usando para updates e deletes
-    @Query(value = "select * from tb_modules where course_course_id = :course_id", nativeQuery = true)
+    @Query(value = "select * from tb_modules where course_course_id = :courseId", nativeQuery = true)
     List<ModuleModel> findAllModulesIntoCourse(@Param("courseId") UUID courseId);
 }
