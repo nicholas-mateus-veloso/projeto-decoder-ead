@@ -43,7 +43,7 @@ public class CourseController implements CourseApi {
     }
 
     @DeleteMapping("/{courseId}")
-    public ResponseEntity<Object> deleteCourse(@PathVariable("courseId") UUID courseId) {
+    public ResponseEntity<Object> deleteCourse(@PathVariable(value = "courseId") UUID courseId) {
         Optional<CourseModel> courseModelOptional = courseService.findById(courseId);
         if (!courseModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course Not Found.");
