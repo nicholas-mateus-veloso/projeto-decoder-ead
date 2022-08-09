@@ -15,8 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -45,6 +43,5 @@ public class LessonModel implements Serializable {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @Fetch(FetchMode.SUBSELECT)
     private ModuleModel module;
 }
