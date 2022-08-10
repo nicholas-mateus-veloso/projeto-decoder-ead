@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class CourseController implements CourseApi {
 
+    public static final String COURSE_NOT_FOUND = "Course Not Found.";
     private final CourseService courseService;
 
     public CourseController(CourseService courseService) {
@@ -46,7 +47,7 @@ public class CourseController implements CourseApi {
     public ResponseEntity<Object> deleteCourse(@PathVariable(value = "courseId") UUID courseId) {
         Optional<CourseModel> courseModelOptional = courseService.findById(courseId);
         if (!courseModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course Not Found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(COURSE_NOT_FOUND);
         }
         courseService.delete(courseModelOptional.get());
         return ResponseEntity.status(HttpStatus.OK).body("Course deleted successfully.");
@@ -57,7 +58,7 @@ public class CourseController implements CourseApi {
                                                @RequestBody @Valid CourseDto courseDto) {
         Optional<CourseModel> courseModelOptional = courseService.findById(courseId);
         if (!courseModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course Not Found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(COURSE_NOT_FOUND);
         }
         var courseModel = courseModelOptional.get();
         courseModel.setName(courseDto.getName());
@@ -78,7 +79,7 @@ public class CourseController implements CourseApi {
     public ResponseEntity<Object> getOneCourse(@PathVariable(value = "courseId") UUID courseId) {
         Optional<CourseModel> courseModelOptional = courseService.findById(courseId);
         if (!courseModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course Not Found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(COURSE_NOT_FOUND);
         }
         return ResponseEntity.status(HttpStatus.OK).body(courseModelOptional.get());
     }

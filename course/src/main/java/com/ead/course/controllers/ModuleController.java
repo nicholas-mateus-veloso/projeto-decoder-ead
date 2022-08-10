@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class ModuleController implements ModuleApi {
 
+    public static final String MODULE_NOT_FOUND_FOR_THIS_COURSE = "Module not found for this course.";
     private final ModuleService moduleService;
 
     private final CourseService courseService;
@@ -56,7 +57,7 @@ public class ModuleController implements ModuleApi {
 
         Optional<ModuleModel> moduleModelOptional = moduleService.findModuleIntoCourse(courseId, moduleId);
         if (!moduleModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Module not found for this course.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(MODULE_NOT_FOUND_FOR_THIS_COURSE);
         }
         moduleService.delete(moduleModelOptional.get());
         return ResponseEntity.status(HttpStatus.OK).body("Module deleted successfully.");
@@ -68,7 +69,7 @@ public class ModuleController implements ModuleApi {
                                                @RequestBody @Valid ModuleDto moduleDto) {
         Optional<ModuleModel> moduleModelOptional = moduleService.findModuleIntoCourse(courseId, moduleId);
         if (!moduleModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Module not found for this course.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(MODULE_NOT_FOUND_FOR_THIS_COURSE);
         }
         var moduleModel = moduleModelOptional.get();
         moduleModel.setTitle(moduleDto.getTitle());
@@ -86,7 +87,7 @@ public class ModuleController implements ModuleApi {
                                                 @PathVariable(value = "moduleId") UUID moduleId) {
         Optional<ModuleModel> moduleModelOptional = moduleService.findModuleIntoCourse(courseId, moduleId);
         if (!moduleModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Module not found for this course.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(MODULE_NOT_FOUND_FOR_THIS_COURSE);
         }
         return ResponseEntity.status(HttpStatus.OK).body(moduleModelOptional.get());
     }

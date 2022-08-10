@@ -34,6 +34,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequestMapping("/users")
 public class UserController implements UserControllerAPI {
 
+    public static final String USER_NOT_FOUND = "User not found.";
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -63,7 +64,7 @@ public class UserController implements UserControllerAPI {
     public ResponseEntity<Object> getOneUser(@PathVariable(value = "userId") UUID userId) {
         Optional<UserModel> userModelOptinal = userService.findById(userId);
         if (!userModelOptinal.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(userModelOptinal.get());
         }
@@ -74,7 +75,7 @@ public class UserController implements UserControllerAPI {
     public ResponseEntity<Object> deleteUser(@PathVariable(value = "userId") UUID userId) {
         Optional<UserModel> userModelOptinal = userService.findById(userId);
         if (!userModelOptinal.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
         } else {
             userService.delete(userModelOptinal.get());
             return ResponseEntity.status(HttpStatus.OK).body("User deleted succesful.");
@@ -88,7 +89,7 @@ public class UserController implements UserControllerAPI {
                                              @JsonView(UserDto.UserView.UserPut.class) UserDto userDto) {
         Optional<UserModel> userModelOptinal = userService.findById(userId);
         if (!userModelOptinal.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
         } else {
             var userModel = userModelOptinal.get();
             userModel.setFullName(userDto.getFullName());
@@ -107,7 +108,7 @@ public class UserController implements UserControllerAPI {
                                                  @JsonView(UserDto.UserView.PassowrdPut.class) UserDto userDto) {
         Optional<UserModel> userModelOptinal = userService.findById(userId);
         if (!userModelOptinal.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
         }
         if (!userModelOptinal.get().getPassword().equals(userDto.getOldPassword())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Mismatched old password!");
@@ -127,7 +128,7 @@ public class UserController implements UserControllerAPI {
                                               @JsonView(UserDto.UserView.ImagePut.class) UserDto userDto) {
         Optional<UserModel> userModelOptinal = userService.findById(userId);
         if (!userModelOptinal.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
         } else {
             var userModel = userModelOptinal.get();
             userModel.setImageUrl(userDto.getImageUrl());

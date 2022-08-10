@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class LessonController implements LessonApi {
 
+    public static final String LESSON_NOT_FOUND_FOR_THIS_MODULE = "Lesson not found for this module.";
     private final LessonService lessonService;
 
     private final ModuleService moduleService;
@@ -41,7 +42,7 @@ public class LessonController implements LessonApi {
     public ResponseEntity<Object> saveLesson(@PathVariable(value = "moduleId") UUID moduleId,
                                              @RequestBody @Valid LessonDto lessonDto) {
         Optional<ModuleModel> moduleModelOptional = moduleService.findById(moduleId);
-        if (!moduleModelOptional.isPresent()) {
+        if (moduleModelOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Module Not Found.");
         }
         var lessonModel = new LessonModel();
@@ -56,8 +57,8 @@ public class LessonController implements LessonApi {
                                                @PathVariable(value = "lessonId") UUID lessonId) {
 
         Optional<LessonModel> lessonModelOptional = lessonService.findLessonIntoModule(moduleId, lessonId);
-        if (!lessonModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lesson not found for this module.");
+        if (lessonModelOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(LESSON_NOT_FOUND_FOR_THIS_MODULE);
         }
         lessonService.delete(lessonModelOptional.get());
         return ResponseEntity.status(HttpStatus.OK).body("Lesson deleted successfully.");
@@ -68,8 +69,8 @@ public class LessonController implements LessonApi {
                                                @PathVariable(value = "lessonId") UUID lessonId,
                                                @RequestBody @Valid LessonDto lessonDto) {
         Optional<LessonModel> lessonModelOptional = lessonService.findLessonIntoModule(moduleId, lessonId);
-        if (!lessonModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lesson not found for this module.");
+        if (lessonModelOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(LESSON_NOT_FOUND_FOR_THIS_MODULE);
         }
         var lessonModel = lessonModelOptional.get();
         lessonModel.setTitle(lessonDto.getTitle());
@@ -87,8 +88,8 @@ public class LessonController implements LessonApi {
     public ResponseEntity<Object> getOneLessons(@PathVariable(value = "moduleId") UUID moduleId,
                                                 @PathVariable(value = "lessonId") UUID lessonId) {
         Optional<LessonModel> lessonModelOptional = lessonService.findLessonIntoModule(moduleId, lessonId);
-        if (!lessonModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lesson not found for this module.");
+        if (lessonModelOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(LESSON_NOT_FOUND_FOR_THIS_MODULE);
         }
         return ResponseEntity.status(HttpStatus.OK).body(lessonModelOptional.get());
     }
