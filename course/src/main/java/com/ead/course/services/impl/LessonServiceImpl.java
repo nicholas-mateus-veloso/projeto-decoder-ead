@@ -6,6 +6,9 @@ import com.ead.course.services.LessonService;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,7 +36,12 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<LessonModel> findAllByLessons(UUID moduleId) {
+    public List<LessonModel> findAllByModule(UUID moduleId) {
         return lessonRepository.findAllLessonsIntoModule(moduleId);
+    }
+
+    @Override
+    public Page<LessonModel> findAllByModule(Specification<LessonModel> spec, Pageable pageable) {
+        return lessonRepository.findAll(spec, pageable);
     }
 }

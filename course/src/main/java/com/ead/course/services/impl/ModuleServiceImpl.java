@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import javax.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -52,6 +55,11 @@ public class ModuleServiceImpl implements ModuleService {
     @Override
     public Optional<ModuleModel> findById(UUID moduleId) {
         return moduleRepository.findById(moduleId);
+    }
+
+    @Override
+    public Page<ModuleModel> findAllByModule(Specification<ModuleModel> spec, Pageable pageable) {
+        return moduleRepository.findAll(spec, pageable);
     }
 
 }

@@ -2,8 +2,10 @@ package com.ead.course.controllers;
 
 import com.ead.course.dtos.LessonDto;
 import com.ead.course.models.LessonModel;
-import java.util.List;
+import com.ead.course.specifications.SpecificationTemplate;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 public interface LessonApi {
@@ -14,7 +16,9 @@ public interface LessonApi {
 
     ResponseEntity<Object> updateLesson(UUID moduleId, UUID lessonId, LessonDto lessonDto);
 
-    ResponseEntity<List<LessonModel>> getAllLessons(UUID moduleId);
+    ResponseEntity<Page<LessonModel>> getAllLessons(UUID moduleId,
+                                                    SpecificationTemplate.LessonSpec spec,
+                                                    Pageable pageable);
 
     ResponseEntity<Object> getOneLessons(UUID moduleId, UUID lessonId);
 }
