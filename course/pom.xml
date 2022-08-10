@@ -17,6 +17,7 @@
     <properties>
         <java.version>11</java.version>
         <postgresql.version>42.4.0</postgresql.version>
+        <specification-arg-resolver.version>2.6.3</specification-arg-resolver.version>
     </properties>
 
     <dependencies>
@@ -51,6 +52,12 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.kaczmarzyk</groupId>
+            <artifactId>specification-arg-resolver</artifactId>
+            <version>${specification-arg-resolver.version}</version>
         </dependency>
     </dependencies>
 
