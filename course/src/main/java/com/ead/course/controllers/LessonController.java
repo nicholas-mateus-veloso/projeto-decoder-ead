@@ -11,6 +11,7 @@ import java.time.ZoneId;
 import java.util.Optional;
 import java.util.UUID;
 import javax.validation.Valid;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@Log4j2
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class LessonController implements LessonApi {
@@ -45,6 +47,8 @@ public class LessonController implements LessonApi {
     @PostMapping("/modules/{moduleId}/lessons")
     public ResponseEntity<Object> saveLesson(@PathVariable(value = "moduleId") UUID moduleId,
                                              @RequestBody @Valid LessonDto lessonDto) {
+
+        log.debug("POST saveLesson lessonDto received {} ", lessonDto.toString());
         Optional<ModuleModel> moduleModelOptional = moduleService.findById(moduleId);
         if (moduleModelOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Module Not Found.");
@@ -53,18 +57,22 @@ public class LessonController implements LessonApi {
         BeanUtils.copyProperties(lessonDto, lessonModel);
         lessonModel.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
         lessonModel.setModule(moduleModelOptional.get());
+        log.debug("POST saveLesson lessonId saved {} ", lessonModel.getLessonId());
+        log.info("Lesson saved successfully lessonId {} ", lessonModel.getLessonId());
         return ResponseEntity.status(HttpStatus.CREATED).body(lessonService.save(lessonModel));
     }
 
     @DeleteMapping("/modules/{moduleId}/lessons/{lessonId}")
     public ResponseEntity<Object> deleteLesson(@PathVariable(value = "moduleId") UUID moduleId,
                                                @PathVariable(value = "lessonId") UUID lessonId) {
-
+        log.debug("DELETE deleteLesson lessonId received {} ", lessonId);
         Optional<LessonModel> lessonModelOptional = lessonService.findLessonIntoModule(moduleId, lessonId);
         if (lessonModelOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(LESSON_NOT_FOUND_FOR_THIS_MODULE);
         }
         lessonService.delete(lessonModelOptional.get());
+        log.debug("DELETE deleteLesson lessonId deleted {} ", lessonId);
+        log.info("Lesson deleted successfully lessonId {} ", lessonId);
         return ResponseEntity.status(HttpStatus.OK).body("Lesson deleted successfully.");
     }
 
@@ -72,6 +80,7 @@ public class LessonController implements LessonApi {
     public ResponseEntity<Object> updateLesson(@PathVariable(value = "moduleId") UUID moduleId,
                                                @PathVariable(value = "lessonId") UUID lessonId,
                                                @RequestBody @Valid LessonDto lessonDto) {
+        log.debug("PUT updateLesson lessonDto received {} ", lessonDto.toString());
         Optional<LessonModel> lessonModelOptional = lessonService.findLessonIntoModule(moduleId, lessonId);
         if (lessonModelOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(LESSON_NOT_FOUND_FOR_THIS_MODULE);
@@ -80,6 +89,8 @@ public class LessonController implements LessonApi {
         lessonModel.setTitle(lessonDto.getTitle());
         lessonModel.setDescription(lessonDto.getDescription());
         lessonModel.setVideoUrl(lessonDto.getVideoUrl());
+        log.debug("PUT updateLesson lessonId saved {} ", lessonModel.getLessonId());
+        log.info("Lesson updated successfully lessonId {} ", lessonModel.getLessonId());
         return ResponseEntity.status(HttpStatus.OK).body(lessonService.save(lessonModel));
     }
 

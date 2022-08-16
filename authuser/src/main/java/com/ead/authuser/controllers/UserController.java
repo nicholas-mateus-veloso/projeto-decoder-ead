@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
 import java.util.UUID;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Log4j2
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/users")
@@ -73,11 +75,14 @@ public class UserController implements UserControllerAPI {
     @Override
     @DeleteMapping("/{userId}")
     public ResponseEntity<Object> deleteUser(@PathVariable(value = "userId") UUID userId) {
+        log.debug("DELETE deleteUser userId received {} ", userId);
         Optional<UserModel> userModelOptinal = userService.findById(userId);
         if (!userModelOptinal.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
         } else {
             userService.delete(userModelOptinal.get());
+            log.debug("DELETE deleteUser userId deleted {} ", userId);
+            log.info("User deleted successfully userId {} ", userId);
             return ResponseEntity.status(HttpStatus.OK).body("User deleted succesful.");
         }
     }
@@ -87,6 +92,7 @@ public class UserController implements UserControllerAPI {
     public ResponseEntity<Object> updateUser(@PathVariable(value = "userId") UUID userId,
                                              @RequestBody @Validated(UserDto.UserView.UserPut.class)
                                              @JsonView(UserDto.UserView.UserPut.class) UserDto userDto) {
+        log.debug("PUT updateUser userDto received {} ", userDto.toString());
         Optional<UserModel> userModelOptinal = userService.findById(userId);
         if (!userModelOptinal.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
@@ -97,6 +103,8 @@ public class UserController implements UserControllerAPI {
             userModel.setCpf(userDto.getCpf());
             userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
             userService.save(userModel);
+            log.debug("PUT updateUser userModel saved {} ", userModel.toString());
+            log.info("User updated successfully userId {} ", userModel.getUserId());
             return ResponseEntity.status(HttpStatus.OK).body(userModel);
         }
     }
@@ -106,6 +114,7 @@ public class UserController implements UserControllerAPI {
     public ResponseEntity<Object> updatePassword(@PathVariable(value = "userId") UUID userId,
                                                  @RequestBody @Validated(UserDto.UserView.PassowrdPut.class)
                                                  @JsonView(UserDto.UserView.PassowrdPut.class) UserDto userDto) {
+        log.debug("PUT updatePassword userDto received {} ", userDto.toString());
         Optional<UserModel> userModelOptinal = userService.findById(userId);
         if (!userModelOptinal.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
@@ -117,6 +126,8 @@ public class UserController implements UserControllerAPI {
             userModel.setPassword(userDto.getPassword());
             userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
             userService.save(userModel);
+            log.debug("PUT updatePassword userModel saved {} ", userModel.toString());
+            log.info("Password updated successfully userId {} ", userModel.getUserId());
             return ResponseEntity.status(HttpStatus.OK).body("Password updated successfully.");
         }
     }
@@ -126,6 +137,7 @@ public class UserController implements UserControllerAPI {
     public ResponseEntity<Object> updateImage(@PathVariable(value = "userId") UUID userId,
                                               @RequestBody @Validated(UserDto.UserView.ImagePut.class)
                                               @JsonView(UserDto.UserView.ImagePut.class) UserDto userDto) {
+        log.debug("PUT updateImage userDto received {} ", userDto.toString());
         Optional<UserModel> userModelOptinal = userService.findById(userId);
         if (!userModelOptinal.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
@@ -134,6 +146,8 @@ public class UserController implements UserControllerAPI {
             userModel.setImageUrl(userDto.getImageUrl());
             userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
             userService.save(userModel);
+            log.debug("PUT updateImage userModel saved {} ", userModel.toString());
+            log.info("Image updated successfully userId {} ", userModel.getUserId());
             return ResponseEntity.status(HttpStatus.OK).body(userModel);
         }
     }
