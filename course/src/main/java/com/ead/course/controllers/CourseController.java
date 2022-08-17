@@ -112,20 +112,6 @@ public class CourseController implements CourseApi {
         }
         return ResponseEntity.status(HttpStatus.OK).body(courseModelPage);
     }
-//        Page<CourseModel> courseModelPage = null;
-//        if (userId != null) {
-//            courseModelPage = courseService.findAll(SpecificationTemplate.courseUserId(userId).and(spec), pageable);
-//        } else {
-//            courseService.findAll(spec, pageable);
-//        }
-//
-//        if (!courseModelPage.isEmpty()) {
-//            for (CourseModel course : courseModelPage.toList()) {
-//                course.add(linkTo(methodOn(CourseController.class).getOneCourse(course.getCourseId())).withSelfRel());
-//            }
-//        }
-//        return ResponseEntity.status(HttpStatus.OK).body(courseModelPage);
-//    }
 
     @GetMapping("/{courseId}")
     public ResponseEntity<Object> getOneCourse(@PathVariable(value = "courseId") UUID courseId) {
