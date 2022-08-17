@@ -16,7 +16,9 @@ public interface CourseApi {
 
     ResponseEntity<Object> updateCourse(UUID courseId, CourseDto courseDto);
 
-    ResponseEntity<Page<CourseModel>> getAllCourses(SpecificationTemplate.CourseSpec spec, Pageable pageable);
+    ResponseEntity<Page<CourseModel>> getAllCourses(SpecificationTemplate.CourseSpec spec,
+                                                    Pageable pageable,
+                                                    UUID userId);
 
     ResponseEntity<Object> getOneCourse(UUID courseId);
 }

@@ -25,7 +25,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Log4j2
 @RestController
@@ -92,9 +97,35 @@ public class CourseController implements CourseApi {
                                                                    size = 10,
                                                                    sort = "courseId",
                                                                    direction = Sort.Direction.ASC
-                                                           ) Pageable pageable) {
-        return ResponseEntity.status(HttpStatus.OK).body(courseService.findAll(spec, pageable));
+                                                           ) Pageable pageable,
+                                                           @RequestParam(required = false) UUID userId) {
+        Page<CourseModel> courseModelPage = null;
+        if (userId != null) {
+            courseModelPage = courseService.findAll(SpecificationTemplate.courseUserId(userId).and(spec), pageable);
+        } else {
+            courseModelPage = courseService.findAll(spec, pageable);
+        }
+        if (!courseModelPage.isEmpty()) {
+            for (CourseModel course : courseModelPage.toList()) {
+                course.add(linkTo(methodOn(CourseController.class).getOneCourse(course.getCourseId())).withSelfRel());
+            }
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(courseModelPage);
     }
+//        Page<CourseModel> courseModelPage = null;
+//        if (userId != null) {
+//            courseModelPage = courseService.findAll(SpecificationTemplate.courseUserId(userId).and(spec), pageable);
+//        } else {
+//            courseService.findAll(spec, pageable);
+//        }
+//
+//        if (!courseModelPage.isEmpty()) {
+//            for (CourseModel course : courseModelPage.toList()) {
+//                course.add(linkTo(methodOn(CourseController.class).getOneCourse(course.getCourseId())).withSelfRel());
+//            }
+//        }
+//        return ResponseEntity.status(HttpStatus.OK).body(courseModelPage);
+//    }
 
     @GetMapping("/{courseId}")
     public ResponseEntity<Object> getOneCourse(@PathVariable(value = "courseId") UUID courseId) {
