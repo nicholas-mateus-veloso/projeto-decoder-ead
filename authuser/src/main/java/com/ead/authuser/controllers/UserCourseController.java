@@ -32,7 +32,7 @@ public class UserCourseController implements UserCourseAPI {
             size = 10,
             sort = "courseId",
             direction = Sort.Direction.ASC) Pageable pageable,
-                                                               @PathVariable UUID userId) {
+                                                               @PathVariable(value = "userId") UUID userId) {
         return ResponseEntity.status(HttpStatus.OK).body(userClient.getAllCoursesByUser(userId, pageable));
     }
 }
