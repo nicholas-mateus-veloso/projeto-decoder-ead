@@ -18,22 +18,22 @@ import org.springframework.web.client.RestTemplate;
 
 @Log4j2
 @Component
-public class CourseClient {
+public class AuthUserClient {
 
     private final RestTemplate restTemplate;
 
     private final UtilsService utilsService;
 
 
-    public CourseClient(RestTemplate restTemplate,
-                        UtilsService utilsService) {
+    public AuthUserClient(RestTemplate restTemplate,
+                          UtilsService utilsService) {
         this.restTemplate = restTemplate;
         this.utilsService = utilsService;
     }
 
     public Page<UserDto> getAllUsersByCourse(UUID courseId, Pageable pageable) {
         List<UserDto> searchResult = null;
-        String url = utilsService.createUrl(courseId, pageable);
+        String url = utilsService.createUrlGetAllUsersByCourse(courseId, pageable);
 
         log.debug("Request URL {}", url);
         log.info("Request URL {}", url);
@@ -54,6 +54,10 @@ public class CourseClient {
         }
         log.info("Ending request /users courseId {} ", courseId);
         return new PageImpl<>(searchResult);
+    }
 
+    public ResponseEntity<UserDto> getOneUserById(UUID userId) {
+        String url = utilsService.getOneUserById(userId);
+        return restTemplate.exchange(url, HttpMethod.GET, null, UserDto.class);
     }
 }

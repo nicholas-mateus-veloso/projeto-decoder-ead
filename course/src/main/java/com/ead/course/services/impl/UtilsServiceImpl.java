@@ -9,11 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class UtilsServiceImpl implements UtilsService {
 
-    @Value("{ead.api.url.authuser}")
-    private String requestUriAuthuser;
+    @Value("${ead.api.url.authuser}")
+    private String requestUrlAuthUser;
 
-    public String createUrl(UUID courseId, Pageable pageable) {
-        return requestUriAuthuser + "/users?courseId=" + courseId + "&page=" + pageable.getPageNumber() + "&size=" +
+    public String createUrlGetAllUsersByCourse(UUID courseId, Pageable pageable) {
+        return requestUrlAuthUser + "/users?courseId=" + courseId + "&page=" + pageable.getPageNumber() + "&size=" +
                 pageable.getPageSize() + "&sort=" + pageable.getSort().toString().replaceAll(": ", ",");
+    }
+
+    @Override
+    public String getOneUserById(UUID userId) {
+        return requestUrlAuthUser + "/users/" + userId;
     }
 }

@@ -33,7 +33,7 @@ public class UserClient {
 
     public Page<CourseDto> getAllCoursesByUser(UUID userId, Pageable pageable) {
         List<CourseDto> searchResult = null;
-        String url = utilsService.createUrl(userId, pageable);
+        String url = utilsService.createUrlGetAllCoursesByUser(userId, pageable);
 
         log.debug("Request URL {}", url);
         log.info("Request URL {}", url);
