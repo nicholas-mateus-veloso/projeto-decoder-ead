@@ -18,15 +18,15 @@ import org.springframework.web.client.RestTemplate;
 
 @Log4j2
 @Component
-public class UserClient {
+public class CourseClient {
 
     private final RestTemplate restTemplate;
 
     private final UtilsService utilsService;
 
 
-    public UserClient(RestTemplate restTemplate,
-                      UtilsService utilsService) {
+    public CourseClient(RestTemplate restTemplate,
+                        UtilsService utilsService) {
         this.restTemplate = restTemplate;
         this.utilsService = utilsService;
     }

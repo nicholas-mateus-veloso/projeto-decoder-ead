@@ -12,7 +12,6 @@ import java.util.Optional;
 import java.util.UUID;
 import javax.validation.Valid;
 import lombok.extern.log4j.Log4j2;
-import org.apache.coyote.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -78,7 +77,8 @@ public class CourseUserController implements CourseUserAPI {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
             }
         }
-        CourseUserModel courseUserModel = courseUserService.save(courseModelOptional
+
+        CourseUserModel courseUserModel = courseUserService.saveAndSendSubscriptionUserInCourse(courseModelOptional
                 .get()
                 .convertToCourseUserModel(subscriptionDto.getUserId()));
 
