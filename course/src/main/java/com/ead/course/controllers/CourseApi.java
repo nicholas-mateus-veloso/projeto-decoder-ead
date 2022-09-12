@@ -7,10 +7,11 @@ import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 
 public interface CourseApi {
 
-    ResponseEntity<Object> saveCourse(CourseDto courseDto);
+    ResponseEntity<Object> saveCourse(CourseDto courseDto, Errors errors);
 
     ResponseEntity<Object> deleteCourse(UUID courseId);
 
