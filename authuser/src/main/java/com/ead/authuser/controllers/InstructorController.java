@@ -3,7 +3,7 @@ package com.ead.authuser.controllers;
 import com.ead.authuser.dtos.InstructorDto;
 import com.ead.authuser.enums.UserType;
 import com.ead.authuser.models.UserModel;
-import com.ead.authuser.services.UserService;
+import com.ead.authuser.dtos.services.UserService;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;

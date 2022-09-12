@@ -1,4 +1,4 @@
-package com.ead.authuser.services;
+package com.ead.authuser.dtos.services;
 
 import com.ead.authuser.models.UserCourseModel;
 import com.ead.authuser.models.UserModel;

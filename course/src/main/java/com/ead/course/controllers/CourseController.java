@@ -72,7 +72,7 @@ public class CourseController implements CourseApi {
         log.debug("DELETE deleteCourse courseId received {} ", courseId);
         Optional<CourseModel> courseModelOptional = courseService.findById(courseId);
         if (!courseModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(COURSE_NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course Not Found.");
         }
         courseService.delete(courseModelOptional.get());
         log.debug("DELETE deleteCourse courseId deleted {} ", courseId);

@@ -1,6 +1,6 @@
-package com.ead.authuser.services.impl;
+package com.ead.authuser.dtos.services.impl;
 
-import com.ead.authuser.services.UtilsService;
+import com.ead.authuser.dtos.services.UtilsService;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;

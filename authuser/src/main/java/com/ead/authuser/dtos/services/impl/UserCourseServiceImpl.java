@@ -1,9 +1,9 @@
-package com.ead.authuser.services.impl;
+package com.ead.authuser.dtos.services.impl;
 
 import com.ead.authuser.models.UserCourseModel;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.repositories.UserCourseRepository;
-import com.ead.authuser.services.UserCourseService;
+import com.ead.authuser.dtos.services.UserCourseService;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 

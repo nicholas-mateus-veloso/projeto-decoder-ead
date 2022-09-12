@@ -1,4 +1,4 @@
-package com.ead.authuser.services;
+package com.ead.authuser.dtos.services;
 
 import java.util.UUID;
 import org.springframework.data.domain.Pageable;

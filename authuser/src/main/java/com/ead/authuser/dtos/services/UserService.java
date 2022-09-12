@@ -1,4 +1,4 @@
-package com.ead.authuser.services;
+package com.ead.authuser.dtos.services;
 
 import com.ead.authuser.models.UserModel;
 import java.util.List;
@@ -15,7 +15,7 @@ public interface UserService {
 
     void delete(UserModel userModel);
 
-    void save(UserModel userModel);
+    UserModel save(UserModel userModel);
 
     boolean existsByUsername(String username);
 

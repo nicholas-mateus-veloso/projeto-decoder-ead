@@ -4,7 +4,7 @@ import com.ead.authuser.dtos.UserDto;
 import com.ead.authuser.enums.UserStatus;
 import com.ead.authuser.enums.UserType;
 import com.ead.authuser.models.UserModel;
-import com.ead.authuser.services.UserService;
+import com.ead.authuser.dtos.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
