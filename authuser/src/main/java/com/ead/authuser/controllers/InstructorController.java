@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/instructors")
 public class InstructorController implements InstructorAPI {
 
+    public static final String USER_NOT_FOUND = "User not found.";
     private final UserService userService;
 
     public InstructorController(UserService userService) {
@@ -33,7 +34,7 @@ public class InstructorController implements InstructorAPI {
     public ResponseEntity<Object> saveSubscriptionInstructor(@RequestBody @Valid InstructorDto instructorDto) {
         Optional<UserModel> userModelOptional = userService.findById(instructorDto.getUserId());
         if (!userModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
         } else {
             var userModel = userModelOptional.get();
             userModel.setUserType(UserType.INSTRUCTOR);
