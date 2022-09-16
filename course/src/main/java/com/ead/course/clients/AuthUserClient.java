@@ -7,6 +7,7 @@ import com.ead.course.services.UtilsService;
 import java.util.List;
 import java.util.UUID;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -25,6 +26,9 @@ public class AuthUserClient {
 
     private final UtilsService utilsService;
 
+    @Value("${ead.api.url.authuser}")
+    private String requestUrlAuthUser;
+
 
     public AuthUserClient(RestTemplate restTemplate,
                           UtilsService utilsService) {
@@ -32,25 +36,23 @@ public class AuthUserClient {
         this.utilsService = utilsService;
     }
 
-    public Page<UserDto> getAllUsersByCourse(UUID courseId, Pageable pageable) {
+    public Page<UserDto> getAllUsersByCourse(UUID courseId, Pageable pageable){
         List<UserDto> searchResult = null;
-        String url = utilsService.createUrlGetAllUsersByCourse(courseId, pageable);
-
-        log.debug("Request URL {}", url);
-        log.info("Request URL {}", url);
-
-        try {
+        String url = requestUrlAuthUser + utilsService.createUrlGetAllUsersByCourse(courseId, pageable);
+        log.debug("Request URL: {} ", url);
+        log.info("Request URL: {} ", url);
+        try{
             ParameterizedTypeReference<ResponsePageDto<UserDto>> responseType =
-                    new ParameterizedTypeReference<ResponsePageDto<UserDto>>() {
-                    };
+                    new ParameterizedTypeReference<ResponsePageDto<UserDto>>() {};
             ResponseEntity<ResponsePageDto<UserDto>> result = restTemplate.exchange(
                     url,
                     HttpMethod.GET,
                     null,
-                    responseType);
+                    responseType
+            );
             searchResult = result.getBody().getContent();
             log.debug("Response Number of Elements: {} ", searchResult.size());
-        } catch (HttpStatusCodeException e) {
+        } catch (HttpStatusCodeException e){
             log.error("Error request /courses {} ", e);
         }
         log.info("Ending request /users courseId {} ", courseId);
@@ -58,12 +60,12 @@ public class AuthUserClient {
     }
 
     public ResponseEntity<UserDto> getOneUserById(UUID userId) {
-        String url = utilsService.getOneUserById(userId);
+        String url = requestUrlAuthUser + utilsService.getOneUserById(userId);
         return restTemplate.exchange(url, HttpMethod.GET, null, UserDto.class);
     }
 
     public void postSubscriptionUserInCourse(UUID courseId, UUID userId) {
-        String url = utilsService.createUrlPostSubscriptionUserInCourse(userId);
+        String url = requestUrlAuthUser + utilsService.createUrlPostSubscriptionUserInCourse(userId);
         var courseUserDto = new CourseUserDto();
         courseUserDto.setCourseId(courseId);
         courseUserDto.setUserId(userId);
