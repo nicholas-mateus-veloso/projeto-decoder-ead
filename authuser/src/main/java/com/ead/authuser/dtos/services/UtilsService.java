@@ -6,4 +6,6 @@ import org.springframework.data.domain.Pageable;
 public interface UtilsService {
 
     String createUrlGetAllCoursesByUser(UUID userId, Pageable pageable);
+
+    String createUrlDeleteUserInCourse(UUID userId);
 }

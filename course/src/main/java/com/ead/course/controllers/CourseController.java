@@ -41,6 +41,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class CourseController implements CourseApi {
 
     public static final String COURSE_NOT_FOUND = "Course Not Found.";
+    public static final String COURSE_DELETED_SUCCESSFULLY = "Course deleted successfully.";
     private final CourseService courseService;
 
     private final CourseValidator courseValidator;
@@ -72,12 +73,12 @@ public class CourseController implements CourseApi {
         log.debug("DELETE deleteCourse courseId received {} ", courseId);
         Optional<CourseModel> courseModelOptional = courseService.findById(courseId);
         if (!courseModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course Not Found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(COURSE_NOT_FOUND);
         }
         courseService.delete(courseModelOptional.get());
         log.debug("DELETE deleteCourse courseId deleted {} ", courseId);
         log.info("Course deleted successfully courseId {} ", courseId);
-        return ResponseEntity.status(HttpStatus.OK).body("Course deleted successfully.");
+        return ResponseEntity.status(HttpStatus.OK).body(COURSE_DELETED_SUCCESSFULLY);
     }
 
     @PutMapping("/{courseId}")

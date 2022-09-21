@@ -12,4 +12,6 @@ public interface UserCourseAPI {
     ResponseEntity<Page<CourseDto>> getAllCoursesByUser(Pageable pageable, UUID userId);
 
     ResponseEntity<Object> saveSubscriptionUserInCourse(UUID userId, UserCourseDto userCourseDto);
+
+    ResponseEntity<Object> deleteUserCourseByCourse(UUID courseId);
 }

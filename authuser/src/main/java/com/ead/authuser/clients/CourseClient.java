@@ -42,7 +42,8 @@ public class CourseClient {
         log.info("Request URL: {} ", url);
         try {
             ParameterizedTypeReference<ResponsePageDto<CourseDto>> responseType =
-                    new ParameterizedTypeReference<ResponsePageDto<CourseDto>>() {};
+                    new ParameterizedTypeReference<ResponsePageDto<CourseDto>>() {
+                    };
             result = restTemplate.exchange(url, HttpMethod.GET, null, responseType);
             searchResult = result.getBody().getContent();
             log.debug("Response Number of Elements: {} ", searchResult.size());
@@ -51,5 +52,10 @@ public class CourseClient {
         }
         log.info("Ending request /courses userId {} ", userId);
         return result.getBody();
+    }
+
+    public void deleteUserInCourse(UUID userId) {
+        String url = requestUrlCourse + utilsService.createUrlDeleteUserInCourse(userId);
+        restTemplate.exchange(url, HttpMethod.DELETE, null, String.class);
     }
 }

@@ -10,7 +10,7 @@ public class UtilsServiceImpl implements UtilsService {
 
     public String createUrlGetAllUsersByCourse(UUID courseId, Pageable pageable) {
         return "/users?courseId=" + courseId + "&page=" + pageable.getPageNumber() + "&size=" +
-                pageable.getPageSize() + "&sort=" + pageable.getSort().toString().replaceAll(": ", ",");
+                pageable.getPageSize() + "&sort=" + pageable.getSort().toString().replace(": ", ",");
     }
 
     @Override
@@ -21,5 +21,10 @@ public class UtilsServiceImpl implements UtilsService {
     @Override
     public String createUrlPostSubscriptionUserInCourse(UUID userId) {
         return "/users/" + userId + "/courses/subscription";
+    }
+
+    @Override
+    public String createUrlDeleteCourseInAuthUser(UUID courseId) {
+        return "/users/courses/" + courseId;
     }
 }

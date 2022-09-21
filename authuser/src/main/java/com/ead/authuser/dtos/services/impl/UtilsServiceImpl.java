@@ -10,6 +10,11 @@ public class UtilsServiceImpl implements UtilsService {
 
     public String createUrlGetAllCoursesByUser(UUID userId, Pageable pageable) {
         return "/courses?userId=" + userId + "&page=" + pageable.getPageNumber() + "&size=" +
-                pageable.getPageSize() + "&sort=" + pageable.getSort().toString().replaceAll(": ", ",");
+                pageable.getPageSize() + "&sort=" + pageable.getSort().toString().replace(": ", ",");
+    }
+
+    @Override
+    public String createUrlDeleteUserInCourse(UUID userId) {
+        return "/courses/users/" + userId;
     }
 }

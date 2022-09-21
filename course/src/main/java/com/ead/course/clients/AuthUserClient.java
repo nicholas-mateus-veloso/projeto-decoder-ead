@@ -36,14 +36,15 @@ public class AuthUserClient {
         this.utilsService = utilsService;
     }
 
-    public Page<UserDto> getAllUsersByCourse(UUID courseId, Pageable pageable){
+    public Page<UserDto> getAllUsersByCourse(UUID courseId, Pageable pageable) {
         List<UserDto> searchResult = null;
         String url = requestUrlAuthUser + utilsService.createUrlGetAllUsersByCourse(courseId, pageable);
         log.debug("Request URL: {} ", url);
         log.info("Request URL: {} ", url);
-        try{
+        try {
             ParameterizedTypeReference<ResponsePageDto<UserDto>> responseType =
-                    new ParameterizedTypeReference<ResponsePageDto<UserDto>>() {};
+                    new ParameterizedTypeReference<ResponsePageDto<UserDto>>() {
+                    };
             ResponseEntity<ResponsePageDto<UserDto>> result = restTemplate.exchange(
                     url,
                     HttpMethod.GET,
@@ -52,7 +53,7 @@ public class AuthUserClient {
             );
             searchResult = result.getBody().getContent();
             log.debug("Response Number of Elements: {} ", searchResult.size());
-        } catch (HttpStatusCodeException e){
+        } catch (HttpStatusCodeException e) {
             log.error("Error request /courses {} ", e);
         }
         log.info("Ending request /users courseId {} ", courseId);
@@ -70,5 +71,10 @@ public class AuthUserClient {
         courseUserDto.setCourseId(courseId);
         courseUserDto.setUserId(userId);
         restTemplate.postForObject(url, courseUserDto, String.class);
+    }
+
+    public void deleteCourseInAuthUser(UUID courseId) {
+        String url = requestUrlAuthUser + utilsService.createUrlDeleteCourseInAuthUser(courseId);
+        restTemplate.exchange(url, HttpMethod.DELETE, null, String.class);
     }
 }
