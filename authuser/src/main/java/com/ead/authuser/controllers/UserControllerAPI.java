@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface UserControllerAPI {
 
-    ResponseEntity<Page<UserModel>> getAllUsers(SpecificationTemplate.UserSpec spec, Pageable pageable, UUID courseId);
+    ResponseEntity<Page<UserModel>> getAllUsers(SpecificationTemplate.UserSpec spec, Pageable pageable);
 
     ResponseEntity<Object> getOneUser(UUID userId);
 
