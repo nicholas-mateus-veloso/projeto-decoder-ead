@@ -4,6 +4,7 @@ import com.ead.course.dtos.SubscriptionDto;
 import com.ead.course.models.CourseModel;
 import com.ead.course.services.CourseService;
 import com.ead.course.services.UserService;
+import com.ead.course.specifications.SpecificationTemplate;
 import java.util.Optional;
 import java.util.UUID;
 import javax.validation.Valid;
@@ -38,15 +39,17 @@ public class CourseUserController implements CourseUserAPI {
     }
 
     @GetMapping("/courses/{courseId}/users")
-    public ResponseEntity<Object> getAllUsersByCourse(@PageableDefault(
-            sort = "userId",
-            direction = Sort.Direction.ASC) Pageable pageable,
+    public ResponseEntity<Object> getAllUsersByCourse(SpecificationTemplate.UserSpec spec,
+                                                      @PageableDefault(
+                                                              sort = "userId",
+                                                              direction = Sort.Direction.ASC) Pageable pageable,
                                                       @PathVariable(value = "courseId") UUID courseId) {
         Optional<CourseModel> courseModelOptional = courseService.findById(courseId);
         if (courseModelOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(COURSE_NOT_FOUND);
         }
-        return ResponseEntity.status(HttpStatus.OK).body("");
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(userService.findAll(SpecificationTemplate.userCourseId(courseId).and(spec),pageable));
     }
 
     @PostMapping("/courses/{courseId}/users/subscription")
