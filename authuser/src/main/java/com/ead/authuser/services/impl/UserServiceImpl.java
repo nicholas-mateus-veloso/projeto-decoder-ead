@@ -1,7 +1,7 @@
-package com.ead.authuser.dtos.services.impl;
+package com.ead.authuser.services.impl;
 
 import com.ead.authuser.clients.CourseClient;
-import com.ead.authuser.dtos.services.UserService;
+import com.ead.authuser.services.UserService;
 import com.ead.authuser.models.UserCourseModel;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.repositories.UserCourseRepository;

@@ -2,7 +2,7 @@ package com.ead.authuser.clients;
 
 import com.ead.authuser.dtos.CourseDto;
 import com.ead.authuser.dtos.ResponsePageDto;
-import com.ead.authuser.dtos.services.UtilsService;
+import com.ead.authuser.services.UtilsService;
 import java.util.List;
 import java.util.UUID;
 import lombok.extern.log4j.Log4j2;

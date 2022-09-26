@@ -1,4 +1,4 @@
-package com.ead.authuser.dtos.services;
+package com.ead.authuser.services;
 
 import com.ead.authuser.models.UserModel;
 import java.util.List;
