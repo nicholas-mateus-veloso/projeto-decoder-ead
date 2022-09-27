@@ -1,7 +1,9 @@
 package com.ead.authuser.services.impl;
 
 import com.ead.authuser.clients.CourseClient;
+import com.ead.authuser.enums.ActionType;
 import com.ead.authuser.models.UserModel;
+import com.ead.authuser.publishers.UserEventPublisher;
 import com.ead.authuser.repositories.UserRepository;
 import com.ead.authuser.services.UserService;
 import java.util.List;
@@ -18,12 +20,15 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    private final UserEventPublisher userEventPublisher;
 
     private final CourseClient courseClient;
 
     public UserServiceImpl(UserRepository userRepository,
+                           UserEventPublisher userEventPublisher,
                            CourseClient courseClient) {
         this.userRepository = userRepository;
+        this.userEventPublisher = userEventPublisher;
         this.courseClient = courseClient;
     }
 
@@ -61,6 +66,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<UserModel> findAll(Specification<UserModel> spec, Pageable pageable) {
         return userRepository.findAll(spec, pageable);
+    }
+
+    @Transactional
+    @Override
+    public UserModel saveUser(UserModel userModel) {
+        userModel = save(userModel);
+        userEventPublisher.publishUserEvent(userModel.convertToUserEventDto(), ActionType.CREATE);
+        return userModel;
+
     }
 
 }

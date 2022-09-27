@@ -23,6 +23,8 @@ spring:
   output:
     ansi:
       enabled: always
+  rabbitmq:
+    addresses: amqps://waewnomu:Ajkb8YNGjdFv2NgD0GpPBMQhqtiVu1ID@moose.rmq.cloudamqp.com/waewnomu
 
 logging:
   level:
@@ -35,6 +37,7 @@ ead:
   api:
     url:
       authuser: 'http://ead-authuser-service/ead-authuser'
+
 
 eureka:
   client:
