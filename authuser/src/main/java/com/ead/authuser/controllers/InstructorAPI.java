@@ -1,7 +1,7 @@
 package com.ead.authuser.controllers;
 
 import com.ead.authuser.dtos.InstructorDto;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 

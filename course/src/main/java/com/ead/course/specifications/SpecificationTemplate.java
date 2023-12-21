@@ -6,8 +6,9 @@ import com.ead.course.models.ModuleModel;
 import com.ead.course.models.UserModel;
 import java.util.Collection;
 import java.util.UUID;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Root;
+
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Root;
 import net.kaczmarzyk.spring.data.jpa.domain.Equal;
 import net.kaczmarzyk.spring.data.jpa.domain.Like;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
